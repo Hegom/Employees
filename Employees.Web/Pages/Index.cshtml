@@ -4,7 +4,36 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-2">Employee Id</div>
+        <div class="col-4"><input type="text" id="employeeInput" /></div>
+    </div>    
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-6">
+            <input type="button" id="getEmployeesButton" value="Get Employees" />
+        </div>
+    </div>
 </div>
+<div class="row">
+    <div class="col-12">
+        <hr />
+    </div>
+</div>
+<table id="employeesTable" class="table">
+    <thead>
+        <tr>
+            <th data-field="id">Id</th>
+            <th data-field="name">Name</th>
+            <th data-field="contractTypeName">Contract Type</th>
+            <th data-field="roleId">Role Id</th>
+            <th data-field="roleName">Role Name</th>
+            <th data-field="roleDescription">Role Description</th>
+            <th data-field="hourlySalary">Hourly Salary</th>
+            <th data-field="monthlySalary">Monthly Salary</th>
+            <th data-field="annualSalary">Calculated Annaual Salary</th>
+        </tr>
+    </thead>
+</table>
