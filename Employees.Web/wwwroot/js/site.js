@@ -1,23 +1,27 @@
-﻿document.getElementById("getEmployeesButton").addEventListener("click", function (event) {
+﻿document.getElementById("getEmployeesButton").addEventListener("click", async function (event) {
     var employeeId = document.getElementById("employeeInput").value;
-
-    fetch(`http://localhost:50266/api/Employee/${employeeId}`)
-        .then((response) => {           
-            if (response.status == 400) {
-                alert(`Error: ${response.statusText}`)
-            }
-            if (response.status != 204) {
-                return response.json();
-            }
-            return [];
-        })
-        .then((data) => {
-            console.log(data);
-            $('#employeesTable').bootstrapTable({
-                data: data
-            });
-            // Refresh
-            $('#employeesTable').bootstrapTable('load', data);
-        })
-        .catch((error) => console.log(error))
+    await fetchEmployees(employeeId);
 });
+
+const employeeApi = 'http://localhost:50266/api/Employee/';
+
+async function fetchEmployees(employeeId) {
+    const response = await fetch(`${employeeApi}${employeeId}`);
+
+    if (!response.ok) {
+        const message = `An error has occured: ${response.status}`;
+        alert(`Error: ${message}`)
+        throw new Error(message);
+    }
+
+    if (response.status == 204) {
+        $('#employeesTable').bootstrapTable('load', []);
+    }
+    else {
+        const employees = await response.json();
+        $('#employeesTable').bootstrapTable({
+            data: employees
+        });
+        $('#employeesTable').bootstrapTable('load', employees);
+    }
+}

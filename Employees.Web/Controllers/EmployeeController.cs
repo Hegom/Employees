@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Employees.Web.Controllers
 {
@@ -11,23 +12,24 @@ namespace Employees.Web.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        public IEmployeeService EmployeeService;
+        private readonly IEmployeeService EmployeeService;
 
         public EmployeeController(IEmployeeService employeeService)
         {
             EmployeeService = employeeService;
         }
-        
+
         [HttpGet("{id?}")]
         [ProducesResponseType(typeof(List<Employee>), 200)]
         [Produces("application/json")]
-        public IActionResult GetEmployees(int? id)
+        public async Task<IActionResult> GetEmployees(int? id)
         {
             try
             {
-                var result = EmployeeService.GetEmployees(id);
+                var result = await EmployeeService.GetEmployees(id);
                 if (result.Count() == 0) return NoContent();
                 return Ok(result);
+
             }
             catch (Exception ex)
             {

@@ -1,13 +1,14 @@
 ﻿using Employees.Core.Dto;
 using Employees.Core.Intefaces;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Employees.Infrastructure.Services
 {
     public class EmployeeService : IEmployeeService
     {
-        public IEmployeeRepository EmployeeRepository;
-        public IEmployeeFactory EmployeeFactory;
+        private readonly IEmployeeRepository EmployeeRepository;
+        private readonly IEmployeeFactory EmployeeFactory;
 
         public EmployeeService(IEmployeeFactory employeeFactory, IEmployeeRepository employeeRepository)
         {
@@ -15,14 +16,17 @@ namespace Employees.Infrastructure.Services
             EmployeeFactory = employeeFactory;
         }
 
-        public IEnumerable<Employee> GetEmployees(int? employeeId)
+        public async Task<IEnumerable<Employee>> GetEmployees(int? employeeId)
         {
-            var employes = EmployeeRepository.GetEmployee(employeeId);
+            var employes = await EmployeeRepository.GetEmployees(employeeId);
+            var retList = new List<Employee>();
 
             foreach (var employeeDto in employes)
             {
-                yield return EmployeeFactory.GetEmployee(employeeDto);
+                retList.Add(EmployeeFactory.GetEmployee(employeeDto));
             }
+
+            return retList;
         }
     }
 }

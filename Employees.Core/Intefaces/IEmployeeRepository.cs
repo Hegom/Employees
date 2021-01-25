@@ -1,12 +1,11 @@
 ﻿using Employees.Core.Dto;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace Employees.Core.Intefaces
 {
     public interface IEmployeeRepository
     {        
-        IEnumerable<EmployeeDto> GetEmployee(int? employeeId);
+        Task<IEnumerable<EmployeeDto>> GetEmployees(int? employeeId);
     }
 }
